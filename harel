@@ -62,3 +62,5 @@ ApplyButton.MouseButton1Click:Connect(function()
         print("❌ לא הכנסת מספר תקין")
     end
 end)
+
+--s
