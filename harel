@@ -5,6 +5,8 @@ local Title = Instance.new("TextLabel")
 local SpeedBox = Instance.new("TextBox")
 local ApplyButton = Instance.new("TextButton")
 
+local UserInputSpeed = 16 -- ברירת מחדל
+
 -- הכנסת ה-Gui לשחקן
 ScreenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -13,7 +15,7 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Frame.Parent = ScreenGui
 Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 Frame.BorderSizePixel = 0
-Frame.Position = UDim2.new(0.75, 0, 0.3, 0) -- בצד ימין
+Frame.Position = UDim2.new(0.75, 0, 0.3, 0)
 Frame.Size = UDim2.new(0, 220, 0, 160)
 
 -- כותרת
@@ -48,19 +50,21 @@ ApplyButton.Text = "החל"
 ApplyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ApplyButton.TextSize = 16
 
--- פונקציית שינוי מהירות
+-- פונקציה לשינוי מהירות
 ApplyButton.MouseButton1Click:Connect(function()
-    local player = game:GetService("Players").LocalPlayer
-    local char = player.Character or player.CharacterAdded:Wait()
-    local humanoid = char:WaitForChild("Humanoid")
-    
     local speed = tonumber(SpeedBox.Text)
     if speed then
-        humanoid.WalkSpeed = speed
-        print("✔ מהירות שונתה ל-" .. speed)
+        UserInputSpeed = speed
+        print("✔ המהירות שונתה ל-" .. speed)
     else
         print("❌ לא הכנסת מספר תקין")
     end
 end)
 
---s
+-- לולאה שמוודאת שהמהירות נשארת
+game:GetService("RunService").Stepped:Connect(function()
+    local player = game:GetService("Players").LocalPlayer
+    if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+        player.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = UserInputSpeed
+    end
+end)
