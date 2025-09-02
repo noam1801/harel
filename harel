@@ -40,3 +40,5 @@ MovementSection:CreateSlider({
 
 -- הפעלת טעינת תצורה שמורה
 Rayfield:LoadConfiguration()
+
+--2
